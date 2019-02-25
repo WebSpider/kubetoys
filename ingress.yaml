@@ -1,0 +1,8 @@
+controller:
+  service:
+    loadBalancerIP: 23.96.27.107
+    externalTrafficPolicy: "Local"
+  stats:
+    enabled: True
+  metrics:
+    enabled: True

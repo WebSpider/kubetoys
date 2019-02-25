@@ -1,0 +1,77 @@
+wordpressUsername: testuser
+wordpressEmail: test@test.nl
+wordpressFirstName: Test
+wordpressLastName: User
+wordpressBlogName: Random Blog
+wordpressTablePrefix: ts_
+allowEmptyPassword: "no"
+replicaCount: 1
+externalDatabase:
+  host: mariadb.default.svc.cluster.local
+  user: ts_wordpress
+  password: wordpress_ts
+  database: ts_wordpress
+  port: 3306
+mariadb:
+  enabled: false
+  db:
+    name: ts_wordpress
+    user: ts_wordpress
+    password: wordpress_ts
+  rootUser:
+    password: OMGmariodb01
+service:
+  type: ClusterIP
+  port: 80
+  httpsPort: 443
+  nodePorts:
+    http: ""
+    https: ""
+  externalTrafficPolicy: Local
+  annotations: {}
+
+healthcheckHttps: false
+#livenessProbe:
+#  initialDelaySeconds: 120
+#  periodSeconds: 10
+#  timeoutSeconds: 5
+#  failureThreshold: 6
+#  successThreshold: 1
+#livenessProbeHeaders:
+#- name: X-Forwarded-Proto
+#  value: https
+
+#readinessProbe:
+#  initialDelaySeconds: 30
+#  periodSeconds: 10
+#  timeoutSeconds: 5
+#  failureThreshold: 6
+#  successThreshold: 1
+#readinessProbeHeaders:
+#- name: X-Forwarded-Proto
+#  value: https
+
+ingress:
+  enabled: true
+  certManager: true
+
+  hosts:
+  - name: testwp.lab.aves-it.nl
+    path: /
+    tls: true
+    tlsSecret: testwp.lab-tls
+
+persistence:
+  enabled: true
+  storageClass: nfs
+  accessMode: ReadWriteMany
+  size: 1Gi
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 300m
+
+metrics:
+  enabled: false	
+
